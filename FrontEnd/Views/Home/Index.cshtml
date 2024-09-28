@@ -1,0 +1,97 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="text-center">
+    @* <h1 class="display-4">Welcome</h1> *@
+    @* <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        *@
+        <div class="row">
+            <div class="col">
+                <input id="value1" type="number">
+                <input type="button" onclick="mvcAPI()" value="mvc api">
+                <input type="button" onclick="RestAPI()" value="rest api">
+                <div id="showApiContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function mvcAPI() {
+        console.log($('#value1').val());
+        $('#showApiContent').empty();
+        $.ajax({
+            type: "post",
+            url: "/MVCAPI/testapi",
+            dataType: "json",
+            data: { 'hour': $('#value1').val() },
+            success: function (response) {
+                console.log(response);
+                if (response.Message !== '') {
+                    $('#showApiContent').html('MVC : Today pay is ' + response.pay);
+                } else {
+                    $('#showApiContent').html(response.Message);
+                }
+            }
+        })
+    }
+
+
+    function RestAPI() {
+        console.log($('#value1').val());
+        $('#showApiContent').empty();
+        $.ajax({
+            type: "post",
+            contentType: "application/json; charset=utf-8",
+            url: "http://localhost:5286/api/Pay/TodayPay",
+            dataType: "json",
+            data: JSON.stringify({ 'hour': $('#value1').val() }),
+            success: function (response) {
+                if (response.Message !== '') {
+                    $('#showApiContent').html('MVC : Today pay is ' + response.pay);
+                } else {
+                    $('#showApiContent').html(response.Message);
+                }
+            }, error: function (errMsg) {
+                console.log(errMsg);
+            }
+        })
+    }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
